@@ -16,5 +16,5 @@ int main(int ac, char **av)
         return 0;
     }
 
-    std::cout << "start nanotekspice" << std::endl;
+    std::cout << "start MyFTP" << std::endl;
 }
