@@ -15,6 +15,7 @@ int main(int ac, char **av)
         help();
         return 0;
     }
-
-    std::cout << "start MyFTP" << std::endl;
+    if (ac != 3)
+        return std::cout << "Missing arguments" << std::endl, 84;
+    std::cout << "./myftp <port>: " << av[1] << "    <path>: " << av[2] << std::endl;
 }
