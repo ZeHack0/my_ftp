@@ -6,6 +6,7 @@
 */
 
 #include "Myftp.hpp"
+#include "Server.hpp"
 #include <iostream>
 
 int main(int ac, char **av)
@@ -17,5 +18,6 @@ int main(int ac, char **av)
     }
     if (ac != 3)
         return std::cout << "Missing arguments" << std::endl, 84;
-    std::cout << "./myftp <port>: " << av[1] << "    <path>: " << av[2] << std::endl;
+    ftp::Server server(av[1], av[2]);
+    server.run();
 }
