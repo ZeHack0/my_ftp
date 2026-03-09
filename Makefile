@@ -47,7 +47,6 @@ fclean: clean
 	@ echo -e "$(RED)Force cleaned$(GRA)"
 
 re: fclean
-	@ cd Jarvis/ && $(MAKE) fclean --no-print-directory
 	@ $(MAKE) all -j --no-print-directory
 
 .PHONY: all clean fclean re

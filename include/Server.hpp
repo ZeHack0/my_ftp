@@ -8,6 +8,7 @@
 #pragma once
 
 #include "Client.hpp"
+#include "ICommand.hpp"
 #include <iostream>
 #include <map>
 #include <poll.h>
@@ -22,18 +23,21 @@ namespace ftp {
             ~Server();
 
             void run();
+            void disconnectionClient(int fd);
 
         private:
-            int _socket;
+            int _socket{};
             int _port;
             std::string _path;
             std::map<int, Client> _clients;
             std::vector<struct pollfd> _poll_fds;
+            std::map<std::string, std::unique_ptr<ICommand>> _commandServer;
 
             void init();
             void handleNewConnection();
             void handleClientActivity(int fd);
-            bool CheckPorIsValid(const std::string &port);
+            static bool CheckPorIsValid(const std::string &port);
+            void InitCommands();
     };
 
 }
