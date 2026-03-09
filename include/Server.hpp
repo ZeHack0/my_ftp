@@ -13,6 +13,7 @@
 #include <map>
 #include <poll.h>
 #include <vector>
+#include <memory>
 
 namespace ftp {
 
