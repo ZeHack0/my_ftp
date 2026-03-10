@@ -18,12 +18,19 @@ namespace ftp {
         public:
             void execute(int fd, const std::string& args, Server& server) override
             {
-                (void)server;
-                const std::string msg = "CWD command in Progress.\r\n";
+                Client& client = server.getClient(fd);
+
+                if (!client.isAuthenticated()) {
+                    const std::string ErrorMsg = "530 Not logged in.\r\n";
+                    write(fd, ErrorMsg.c_str(), ErrorMsg.length());
+                    return;
+                }
+
+                (void)args;
+
+                const std::string msg = "250 Requested file action okay, completed.\r\n";
                 write(fd, msg.c_str(), msg.length());
-                const std::string msg_args = args;
-                write(fd, msg_args.c_str(), msg_args.length());
-            }
+            };
     };
 
 }

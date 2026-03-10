@@ -20,7 +20,8 @@ namespace ftp {
             {
                 (void)args;
                 (void)server;
-                const std::string msg = "NOOP command in Progress.\r\n";
+
+                const std::string msg = "200 Command successful.\r\n";
                 write(fd, msg.c_str(), msg.length());
             }
     };

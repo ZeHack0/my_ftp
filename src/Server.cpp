@@ -173,4 +173,11 @@ namespace ftp {
         _commandServer["STOR"] = std::make_unique<STorCommand>();
         _commandServer["LIST"] = std::make_unique<ListCommand>();
     }
+
+    Client& Server::getClient(int fd) {
+        if (_clients.find(fd) == _clients.end()) {
+            _clients.emplace(fd, Client(fd, _path));
+        }
+        return _clients.at(fd);
+    }
 }

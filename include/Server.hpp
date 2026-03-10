@@ -25,6 +25,7 @@ namespace ftp {
 
             void run();
             void disconnectionClient(int fd);
+            Client& getClient(int fd);
 
         private:
             int _socket{};
