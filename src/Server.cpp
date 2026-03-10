@@ -6,7 +6,20 @@
 */
 
 #include "Server.hpp"
+#include "Command/UserCommand.hpp"
+#include "Command/PassCommand.hpp"
+#include "Command/CwdCommand.hpp"
+#include "Command/CDupCommand.hpp"
 #include "Command/QuitCommand.hpp"
+#include "Command/DeleCommand.hpp"
+#include "Command/PwdCommand.hpp"
+#include "Command/PasvCommand.hpp"
+#include "Command/PortCommand.hpp"
+#include "Command/HelpCommand.hpp"
+#include "Command/NoopCommand.hpp"
+#include "Command/REtrCommand.hpp"
+#include "Command/STorCommand.hpp"
+#include "Command/ListCommand.hpp"
 #include <unistd.h>
 
 namespace ftp {
@@ -124,17 +137,17 @@ namespace ftp {
             return;
         }
 
-        std::string _Input(buffer);
-        size_t last = _Input.find_last_not_of("\r\n");
+        std::string Input(buffer);
+        size_t last = Input.find_last_not_of("\r\n");
 
         if (last == std::string::npos)
             return;
-        _Input = _Input.substr(0, last + 1);
+        Input = Input.substr(0, last + 1);
 
-        size_t _Separator = _Input.find(' ');
-        std::string _commandName = _Input.substr(0, _Separator);
-        std::string _args = (_Separator == std::string::npos) ?
-            "" : _Input.substr(_Separator + 1);
+        size_t Separator = Input.find(' ');
+        std::string _commandName = Input.substr(0, Separator);
+        std::string _args = (Separator == std::string::npos) ?
+            "" : Input.substr(Separator + 1);
 
         if (_commandServer.count(_commandName))
             _commandServer[_commandName]->execute(fd, _args, *this);
@@ -145,6 +158,19 @@ namespace ftp {
     }
 
     void Server::InitCommands() {
+        _commandServer["USER"] = std::make_unique<UserCommand>();
+        _commandServer["PASS"] = std::make_unique<PassCommand>();
+        _commandServer["CWD"] = std::make_unique<CwdCommand>();
+        _commandServer["CDUP"] = std::make_unique<CDupCommand>();
         _commandServer["QUIT"] = std::make_unique<QuitCommand>();
+        _commandServer["DELE"] = std::make_unique<DeleCommand>();
+        _commandServer["DWD"] = std::make_unique<PwdCommand>();
+        _commandServer["PASV"] = std::make_unique<PasvCommand>();
+        _commandServer["PORT"] = std::make_unique<PortCommand>();
+        _commandServer["HELP"] = std::make_unique<HelpCommand>();
+        _commandServer["NOOP"] = std::make_unique<NoopCommand>();
+        _commandServer["RETR"] = std::make_unique<REtrCommand>();
+        _commandServer["STOR"] = std::make_unique<STorCommand>();
+        _commandServer["LIST"] = std::make_unique<ListCommand>();
     }
 }
