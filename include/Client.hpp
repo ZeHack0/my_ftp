@@ -19,16 +19,18 @@ namespace ftp {
             Client(int fd, const std::string& homePath);
             ~Client();
 
-            int getFd() const { return _fd; }
-            bool isAuthenticated() const { return _isLoggedIn; }
+            [[nodiscard]] int getFd() const { return _fd; }
+            [[nodiscard]] bool isAuthenticated() const { return _isLoggedIn; }
             void setAuthenticated(bool state) { _isLoggedIn = state; }
+            bool UserIsSet;
+            std::string username;
 
         private:
             int _fd;
             bool _isLoggedIn;
-            int _dataFd;
-            bool _isPassive;
-            struct sockaddr_in _dataAddr;
+            int _dataFd{};
+            bool _isPassive{};
+            struct sockaddr_in _dataAddr{};
             std::string _user;
             std::string _currentPath;
     };

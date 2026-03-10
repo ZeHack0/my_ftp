@@ -6,7 +6,6 @@
 */
 
 #include "Client.hpp"
-#include <unistd.h>
 
 namespace ftp{
 
@@ -14,6 +13,7 @@ namespace ftp{
     {
         _fd = fd;
         _currentPath = homePath;
+        UserIsSet = false;
         _isLoggedIn = false;
         (void)_dataFd;
         (void)_isPassive;

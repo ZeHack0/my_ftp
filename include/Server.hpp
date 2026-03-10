@@ -18,6 +18,12 @@
 namespace ftp {
 
     class Server {
+        friend class PassCommand;
+
+        struct FtpAccount {
+            std::string _username;
+            std::string _password;
+        };
 
         public:
             Server(const std::string& port, const std::string& path);
@@ -32,7 +38,7 @@ namespace ftp {
             int _port;
             std::string _path;
             std::map<int, Client> _clients;
-            std::vector<struct pollfd> _poll_fds;
+            std::vector<pollfd> _poll_fds;
             std::map<std::string, std::unique_ptr<ICommand>> _commandServer;
 
             void init();
@@ -40,6 +46,7 @@ namespace ftp {
             void handleClientActivity(int fd);
             static bool CheckPorIsValid(const std::string &port);
             void InitCommands();
+            std::vector<FtpAccount> _validUser;
     };
 
 }

@@ -29,6 +29,11 @@ namespace ftp {
             throw std::runtime_error("Bad Port");
         _port = std::stoi(port);
         _path = path;
+
+        _validUser = {
+            {"Anonymous", ""}
+        };
+
         InitCommands();
         init();
     }

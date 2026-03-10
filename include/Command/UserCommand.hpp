@@ -17,9 +17,18 @@ namespace ftp {
 
         public:
             void execute(int fd, const std::string& args, Server& server) override {
-                (void)args;
-                (void)server;
-                const std::string msg = "User command in Progress.\r\n";
+
+                if (args.empty()) {
+                    const std::string msg = "501 Syntax error in parameters or arguments.\r\n";
+                    write(fd, msg.c_str(), msg.length());
+                    return;
+                }
+
+                Client& client = server.getClient(fd);
+
+                client.UserIsSet = true;
+                client.username = args;
+                const std::string msg = "331 Username ok, need password.\r\n";
                 write(fd, msg.c_str(), msg.length());
             }
     };
