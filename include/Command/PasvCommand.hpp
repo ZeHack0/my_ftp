@@ -16,21 +16,7 @@ namespace ftp {
     class PasvCommand: public ICommand {
 
         public:
-            void execute(int fd, const std::string& args, Server& server) override
-            {
-                Client& client = server.getClient(fd);
-
-                if (!client.isAuthenticated()) {
-                    const std::string ErrorMsg = "530 Not logged in.\r\n";
-                    write(fd, ErrorMsg.c_str(), ErrorMsg.length());
-                    return;
-                }
-
-                (void)args;
-
-                const std::string msg = "PASV command in Progress.\r\n";
-                write(fd, msg.c_str(), msg.length());
-            }
+            void execute(int fd, const std::string& args, Server& server) override;
     };
 
 }

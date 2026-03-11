@@ -6,6 +6,7 @@
 */
 
 #include "Client.hpp"
+#include <cstring>
 
 namespace ftp{
 
@@ -15,9 +16,9 @@ namespace ftp{
         _currentPath = homePath;
         UserIsSet = false;
         _isLoggedIn = false;
-        (void)_dataFd;
-        (void)_isPassive;
-        (void)_dataAddr;
+        _dataFd = -1;
+        _isPassive = false;
+        memset(&_dataAddr, 0, sizeof(_dataAddr));
     }
 
     Client::~Client() = default;
