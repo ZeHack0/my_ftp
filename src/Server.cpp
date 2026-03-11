@@ -169,7 +169,7 @@ namespace ftp {
         _commandServer["CDUP"] = std::make_unique<CDupCommand>();
         _commandServer["QUIT"] = std::make_unique<QuitCommand>();
         _commandServer["DELE"] = std::make_unique<DeleCommand>();
-        _commandServer["DWD"] = std::make_unique<PwdCommand>();
+        _commandServer["PWD"] = std::make_unique<PwdCommand>();
         _commandServer["PASV"] = std::make_unique<PasvCommand>();
         _commandServer["PORT"] = std::make_unique<PortCommand>();
         _commandServer["HELP"] = std::make_unique<HelpCommand>();
