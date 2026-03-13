@@ -26,10 +26,23 @@ namespace ftp {
                     return;
                 }
 
-                (void)args;
+                if (args.empty()) {
+                    const std::string errorMsg = "550 Failed to change directory.\r\n";
+                    write(fd, errorMsg.c_str(), errorMsg.length());
+                    return;
+                }
 
-                const std::string msg = "250 Requested file action okay, completed.\r\n";
-                write(fd, msg.c_str(), msg.length());
+                if (chdir(args.c_str()) == 0) {
+                    std::string oldPath = client.getCurrentPath();
+
+                    client.setOldPath(oldPath);
+                    client.setCurrentPath(args);
+                    const std::string successMsg = "250 Requested file action okay, completed.\r\n";
+                    write(fd, successMsg.c_str(), successMsg.length());
+                } else {
+                    const std::string errorMsg = "550 Failed to change directory.\r\n";
+                    write(fd, errorMsg.c_str(), errorMsg.length());
+                }
             };
     };
 

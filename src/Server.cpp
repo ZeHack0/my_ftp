@@ -21,12 +21,21 @@
 #include "Command/STorCommand.hpp"
 #include "Command/ListCommand.hpp"
 #include <unistd.h>
+#include <sys/stat.h>
 
 namespace ftp {
 
     Server::Server(const std::string& port, const std::string& path) {
         if (CheckPorIsValid(port) == false)
             throw std::runtime_error("Bad Port");
+
+        struct stat info;
+        if (stat(path.c_str(), &info) != 0) {
+            throw std::runtime_error("Directory does not exist");
+        } else if (!(info.st_mode & S_IFDIR)) {
+            throw std::runtime_error("Path is not a directory");
+        }
+
         _port = std::stoi(port);
         _path = path;
 

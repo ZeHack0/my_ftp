@@ -28,7 +28,9 @@ namespace ftp {
 
                 (void)args;
 
-                const std::string msg = "PWD command in Progress.\r\n";
+                std::string currentPath = client.getCurrentPath();
+
+                std::string msg = "257 \"" + currentPath + "\" is the current directory.\r\n";
                 write(fd, msg.c_str(), msg.length());
             }
     };

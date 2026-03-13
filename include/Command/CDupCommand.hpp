@@ -26,12 +26,19 @@ namespace ftp {
                     return;
                 }
 
-                (void)server;
+                (void)args;
 
-                const std::string msg = "CDUP command in Progress.\r\n";
-                write(fd, msg.c_str(), msg.length());
-                const std::string msg_args = args;
-                write(fd, msg_args.c_str(), msg_args.length());
+                if (chdir("..") == 0) {
+                    std::string oldPath = client.getCurrentPath();
+
+                    client.setCurrentPath(client.getOldPath());
+                    client.setOldPath(oldPath);
+                    const std::string msg = "200 Directory successfully changed.\r\n";
+                    write(fd, msg.c_str(), msg.length());
+                } else {
+                    const std::string errorMsg = "550 Failed to change directory.\r\n";
+                    write(fd, errorMsg.c_str(), errorMsg.length());
+                }
             }
     };
 
