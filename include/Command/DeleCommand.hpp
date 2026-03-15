@@ -26,12 +26,19 @@ namespace ftp {
                     return;
                 }
 
-                (void)server;
+                if (args.empty()) {
+                    const std::string errorMsg = "550 Permission denied.\r\n";
+                    write(fd, errorMsg.c_str(), errorMsg.length());
+                    return;
+                }
 
-                const std::string msg = "DELE command in Progress.\r\n";
-                write(fd, msg.c_str(), msg.length());
-                const std::string msg_args = args;
-                write(fd, msg_args.c_str(), msg_args.length());
+                if (unlink(args.c_str()) == 0) {
+                    const std::string successMsg = "250 Requested file action okay, completed.\r\n";
+                    write(fd, successMsg.c_str(), successMsg.length());
+                } else {
+                    const std::string errorMsg = "550 Permission denied (file not found or access denied).\r\n";
+                    write(fd, errorMsg.c_str(), errorMsg.length());
+                }
             }
     };
 
